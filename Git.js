@@ -8,8 +8,8 @@ class Commit {
 
 class Branch {
   constructor(name, commit) {
-    this.name = name;
-    this.commit = commit;
+    this.name = name; // name of the branch
+    this.commit = commit; // commit the branch is pointing to
   }
 }
 
@@ -18,17 +18,20 @@ class Git {
   constructor(name) {
     this.name = name; // repo name
     this.lastCommitId = -1; // last commit id
-    this.HEAD = null; // reference to the last commit
+    this.branches = []; // stores a list of all the branches
+    let master = new Branch("master", null); // pass null as commit because there are 0 commits currently
+    this.branches.push(master); // store the master branch in the branches array
+    this.HEAD = master; // HEAD points to the current branch
   }
 
   commit(message) {
-    let commit = new Commit(++this.lastCommitId, this.HEAD, message);
-    this.HEAD = commit; // keeping track of the commits with the HEAD prop
+    let commit = new Commit(++this.lastCommitId, this.HEAD.commit, message);
+    this.HEAD.commit = commit; // keeping track of the commits with the HEAD prop
     return commit;
   }
 
   log() {
-    let commit = this.HEAD;
+    let commit = this.HEAD.commit;
     let history = [];
 
     while (commit) {
@@ -39,6 +42,8 @@ class Git {
     console.log(history);
     return history;
   }
+
+  checkout(branchName) {}
 }
 
 let repo = new Git("repo-sample");
