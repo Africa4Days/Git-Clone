@@ -6,6 +6,14 @@ class Commit {
   }
 }
 
+class Branch {
+  constructor(name, commit) {
+    this.name = name;
+    this.commit = commit;
+  }
+}
+
+// THE MAIN GIT CLASS
 class Git {
   constructor(name) {
     this.name = name; // repo name
