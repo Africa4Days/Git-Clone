@@ -43,7 +43,21 @@ class Git {
     return history;
   }
 
-  checkout(branchName) {}
+  checkout(branchName) {
+    if (this.branches.indexOf(branchName) !== -1) {
+      // the current branch exists
+      let index = this.branches.indexOf(branchName);
+      console.log(`Switched to existing branch ${branchName}.`);
+      this.HEAD = this.branches[index];
+      return this;
+    } else {
+      let newBranch = new Branch(branchName, this.HEAD.commit);
+      this.branches.push(newBranch);
+      this.HEAD = newBranch;
+      console.log(`Switched to new branch ${branchName}.`);
+      return this;
+    }
+  }
 }
 
 let repo = new Git("repo-sample");
